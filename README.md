@@ -104,22 +104,10 @@ Attributes
     <td><tt>/usr/lib64/opensips/modules</tt></td>
   </tr>
   <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
     <td><tt>node['opensips']['federate']['config']['user']</tt></td>
     <td>String</td>
     <td>user to run opensips as</td>
     <td><tt>opensips</tt></td>
-  </tr>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
   </tr>
   <tr>
     <td><tt>node['opensips']['federate']['config']['group']</tt></td>
