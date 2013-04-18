@@ -1,8 +1,8 @@
 name             'opensips'
-maintainer       'YOUR_COMPANY_NAME'
-maintainer_email 'YOUR_EMAIL'
+maintainer       'Federate.IO'
+maintainer_email 'klarrimore@icehook.com'
 license          'All rights reserved'
-description      'Installs/Configures opensips'
+description      'Installs/Configures OpenSIPS'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.1.0'
 
@@ -15,6 +15,6 @@ recipe "opensips::federate", "Installs the federate.io configuration"
   supports os
 end
 
-%w{ build-essential yum }.each do |cb|
+%w{ build-essential yum ohai}.each do |cb|
   depends cb
 end
