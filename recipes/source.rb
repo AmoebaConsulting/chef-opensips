@@ -25,6 +25,9 @@ cd #{basename.gsub('_src', '-tls').gsub('.tar.gz', '')} &&
 make include_modules="#{node['opensips']['source']['include_modules'].join(' ')}" prefix="#{node['opensips']['prefix']}" all &&
 make include_modules="#{node['opensips']['source']['include_modules'].join(' ')}" prefix="#{node['opensips']['prefix']}" install
 EOH
+  notif do
+    File.exist? node['opensips']['prefix']
+  end
 end
 
 group "opensips" do
