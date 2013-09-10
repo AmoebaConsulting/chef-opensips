@@ -21,29 +21,9 @@ mpath="<%= node['opensips']['federate']['config']['module_path'] -%>"
 user=<%= node['opensips']['federate']['config']['user'] %>
 group=<%= node['opensips']['federate']['config']['group'] %>
 
-loadmodule "db_mysql.so"
-loadmodule "signaling.so"
-loadmodule "sl.so"
-loadmodule "tm.so"
-loadmodule "rr.so"
-loadmodule "dialog.so"
-loadmodule "maxfwd.so"
-loadmodule "usrloc.so"
-loadmodule "registrar.so"
-loadmodule "textops.so"
-loadmodule "sipmsgops.so"
-loadmodule "mi_fifo.so"
-loadmodule "uri.so"
-loadmodule "auth.so"
-loadmodule "auth_db.so"
-loadmodule "nathelper.so"
-loadmodule "alias_db.so"
-loadmodule "group.so"
-loadmodule "rtpproxy.so"
-loadmodule "enum.so"
-loadmodule "avpops.so"
-loadmodule "pike.so"
-loadmodule "domain.so"
+<% node['opensips']['source']['include_modules'].each do |module| %>
+loadmodule "<%= module %>.so"
+<% end %>
 
 # enable transactional avp
 modparam("tm", "onreply_avp_mode", 1)

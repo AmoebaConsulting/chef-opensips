@@ -1,12 +1,13 @@
-default['opensips']['prefix'] = '/'
+default['opensips']['prefix'] = '/usr'
 default['opensips']['config_file'] = '/etc/opensips/opensips.cfg'
 default['opensips']['package_name'] = "opensips"
-default['opensips']['install_method'] = "package"
 
+default['opensips']['source']['url'] = "http://opensips.org/pub/opensips/latest/src/opensips-1.9.1-svn10242_src.tar.gz"
+default['opensips']['source']['include_modules'] = ["signaling,", "sl,", "tm,", "rr,", "dialog,", "maxfwd,", "usrloc,", "registrar,", "textops,", "sipmsgops,", "mi_fifo,", "uri,", "auth,", "auth_db,", "nathelper,", "alias_db,", "group,", "rtpproxy,", "enum,", "avpops,", "pike,", "domain", "db_postgres"]
 
-default['opensips']['source']['url'] = "http://opensips.org/pub/opensips/latest/src/opensips-1.9.0_src.tar.gz"
-default['opensips']['source']['include_modules'] = ["signaling,", "sl,", "tm,", "rr,", "dialog,", "maxfwd,", "usrloc,", "registrar,", "textops,", "sipmsgops,", "mi_fifo,", "uri,", "auth,", "auth_db,", "nathelper,", "alias_db,", "group,", "rtpproxy,", "enum,", "avpops,", "pike,", "domain", "db_mysql"]
-
+# Memory options (inserted into /etc/default) for shared memory (s) and package memory (p), in Mb
+default['opensips']['s_memory'] = 64
+default['opensips']['p_memory'] = 4
 
 default['opensips']['federate'] = {}
 default['opensips']['federate']['config'] = {}

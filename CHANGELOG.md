@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of opensips.
 
+## 0.2.0:
+
+* Rewrite for Ubuntu and upgrading opensips to latest version (1.9.x)
+
 ## 0.1.0:
 
 * Initial release of opensips

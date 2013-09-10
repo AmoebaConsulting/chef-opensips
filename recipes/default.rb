@@ -1,18 +1,58 @@
-#
-# Cookbook Name:: opensips
-# Recipe:: default
-#
-# Copyright 2013, YOUR_COMPANY_NAME
-#
-# All rights reserved - Do Not Redistribute
-#
+%w(openssl g++ gcc bison flex make perl libdbi-perl  libfrontier-rpc-perl libterm-readline-gnu-perl).each do |pkg|
+  package pkg
+end
 
-case node['opensips']['install_method']
-when 'source'
-  include_recipe 'opensips::source'
-when 'package'
-  include_recipe 'opensips::rtpproxy'
-  package node['opensips']['package_name']
+opensips_url = node['opensips']['source']['url']
+basename = ::File.basename(opensips_url)
+src_filepath = File.join((Chef::Config['file_cache_path'] || '/tmp'), basename)
+
+directory ::File.dirname(src_filepath) do
+  action :create
+end
+
+remote_file src_filepath do
+  source opensips_url
+  backup false
+end
+
+bash "compile_opensips_source" do
+  cwd ::File.dirname(src_filepath)
+  code <<-EOH
+tar -zxf #{basename}
+cd #{basename.gsub(basename.match(/opensips-\d*\.\d*.\d*(.*?_src)/i)[1], '-tls').gsub('.tar.gz', '')} &&
+make include_modules="#{node['opensips']['source']['include_modules'].join(' ')}" prefix="#{node['opensips']['prefix']}" all &&
+make include_modules="#{node['opensips']['source']['include_modules'].join(' ')}" prefix="#{node['opensips']['prefix']}" install
+EOH
+  not_if do
+    File.exist? node['opensips']['prefix']
+  end
+end
+
+group "opensips" do
+  group_name "opensips"
+  action :create
+end
+
+user "opensips" do
+  comment "opensips"
+  username "opensips"
+  gid "opensips"
+  system true
+  shell "/bin/false"
+end
+
+template '/etc/default/opensips' do
+  source "opensips.default.erb"
+  owner "root"
+  group "root"
+  mode 00644
+end
+
+template '/etc/init.d/opensips' do
+  source "opensips.init.erb"
+  owner "root"
+  group "root"
+  mode 00755
 end
 
 service 'opensips' do

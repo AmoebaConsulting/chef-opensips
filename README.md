@@ -5,12 +5,12 @@ Requirements
 ------------
 
 #### operating systems
-- `centos`
+- `ubuntu` (init.d script only supports ubuntu right now)
 
 #### packages
+(I don't think any of these are required anymore)
 - `ntpproxy` - opensips needs ntpproxy
-- `mysql-libs` - opensips needs mysql-libs
-- `mysql-devel` - opensips needs mysql-devel
+- postgres db dev package
 
 Attributes
 ----------
@@ -22,12 +22,6 @@ Attributes
     <th>Type</th>
     <th>Description</th>
     <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>node['opensips']['install_method']</tt></td>
-    <td>String</td>
-    <td>where to install from package or source</td>
-    <td><tt>package</tt></td>
   </tr>
   <tr>
     <td><tt>node['opensips']['prefix']</tt></td>
@@ -47,16 +41,6 @@ Attributes
     <td>System package name</td>
     <td><tt>opensips</tt></td>
   </tr>
-</table>
-
-#### opensips::source
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
   <tr>
     <td><tt>node['opensips']['source']['url']</tt></td>
     <td>String</td>
@@ -67,7 +51,7 @@ Attributes
     <td><tt>node['opensips']['source']['include_modules']</tt></td>
     <td>Array</td>
     <td>which modules to include in complitation</td>
-    <td><tt>["signaling,", "sl,", "tm,", "rr,", "dialog,", "maxfwd,", "usrloc,", "registrar,", "textops,", "sipmsgops,", "mi_fifo,", "uri,", "auth,", "auth_db,", "nathelper,", "alias_db,", "group,", "rtpproxy,", "enum,", "avpops,", "pike,", "domain", "db_mysql"]</tt></td>
+    <td><tt>["signaling,", "sl,", "tm,", "rr,", "dialog,", "maxfwd,", "usrloc,", "registrar,", "textops,", "sipmsgops,", "mi_fifo,", "uri,", "auth,", "auth_db,", "nathelper,", "alias_db,", "group,", "rtpproxy,", "enum,", "avpops,", "pike,", "domain"]</tt></td>
   </tr>
 </table>
 
