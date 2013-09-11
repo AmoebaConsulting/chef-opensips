@@ -55,6 +55,16 @@ template '/etc/init.d/opensips' do
   mode 00755
 end
 
+config_file = "#{node['opensips']['prefix']}/etc/opensips/opensips.cfg"
+
+template config_file do
+  source "opensips.cfg.erb"
+  owner "root"
+  group "root"
+  mode 00600
+  action :create
+end
+
 service 'opensips' do
   supports :status => true, :restart => true, :reload => true
   action :enable

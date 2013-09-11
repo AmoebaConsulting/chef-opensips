@@ -30,18 +30,6 @@ Attributes
     <td><tt>/</tt></td>
   </tr>
   <tr>
-    <td><tt>node['opensips']['config_file']</tt></td>
-    <td>String</td>
-    <td>configuration</td>
-    <td><tt>/etc/opensips/opensips.cfg</tt></td>
-  </tr>
-  <tr>
-    <td><tt>node['opensips']['package_name']</tt></td>
-    <td>String</td>
-    <td>System package name</td>
-    <td><tt>opensips</tt></td>
-  </tr>
-  <tr>
     <td><tt>node['opensips']['source']['url']</tt></td>
     <td>String</td>
     <td>where to get the source from</td>
