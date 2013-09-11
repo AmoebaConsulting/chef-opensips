@@ -26,7 +26,7 @@ user=opensips
 group=opensips
 
 <% node['opensips']['source']['include_modules'].each do |m| %>
-loadmodule "<%= m %>.so"
+loadmodule "<%= m.chomp(',') %>.so"
 <% end %>
 
 # enable transactional avp
