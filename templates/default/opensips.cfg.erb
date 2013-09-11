@@ -16,7 +16,7 @@ disable_tcp=yes
 listen=udp:<%= node['opensips']['config']['listen_ip'] -%>:5060
 
 #set module path
-<% if Chef::Extensions::Platform.x86_64? %>
+<% if node['kernel']['machine'] =~ /x86_64/ %>
 mpath="<%= "#{node['opensips']['prefix']}/lib64/opensips/modules" -%>"
 <% else %>
 mpath="<%= "#{node['opensips']['prefix']}/lib/opensips/modules" -%>"
