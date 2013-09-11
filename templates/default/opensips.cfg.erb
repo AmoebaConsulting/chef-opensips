@@ -25,8 +25,8 @@ mpath="<%= "#{node['opensips']['prefix']}/lib/opensips/modules" -%>"
 user=opensips
 group=opensips
 
-<% node['opensips']['source']['include_modules'].each do |module| %>
-loadmodule "<%= module %>.so"
+<% node['opensips']['source']['include_modules'].each do |m| %>
+loadmodule "<%= m %>.so"
 <% end %>
 
 # enable transactional avp
