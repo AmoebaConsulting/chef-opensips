@@ -14,10 +14,3 @@ default['opensips']['config']['debug_level'] = 3
 
 # CHANGE THIS
 default['opensips']['config']['listen_ip'] = 'localhost'
-
-# CHANGE THIS to match your install prefix
-if Chef::Extensions::Platform.x86_64?
-  default['opensips']['config']['module_path'] = "#{node['opensips']['prefix']}/lib64/opensips/modules"
-else
-  default['opensips']['config']['module_path'] = "#{node['opensips']['prefix']}/lib/opensips/modules"
-end
