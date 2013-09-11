@@ -7,19 +7,23 @@ children=2
 # children=1
 
 # logging and debug settings
-debug=<%= node['opensips']['federate']['config']['debug_level'] %>
+debug=<%= node['opensips']['config']['debug_level'] %>
 log_stderror=no
-log_facility=<%= node['opensips']['federate']['config']['log_facility'] %>
+log_facility=LOG_LOCAL0
 
 # network settings
 disable_tcp=yes
-listen=udp:<%= node['opensips']['federate']['config']['listen_ip'] -%>:5060
+listen=udp:<%= node['opensips']['config']['listen_ip'] -%>:5060
 
 #set module path
-mpath="<%= node['opensips']['federate']['config']['module_path'] -%>"
+<% if Chef::Extensions::Platform.x86_64? %>
+mpath="<%= "#{node['opensips']['prefix']}/lib64/opensips/modules" -%>"
+<% else %>
+mpath="<%= "#{node['opensips']['prefix']}/lib/opensips/modules" -%>"
+<% end %>
 
-user=<%= node['opensips']['federate']['config']['user'] %>
-group=<%= node['opensips']['federate']['config']['group'] %>
+user=opensips
+group=opensips
 
 <% node['opensips']['source']['include_modules'].each do |module| %>
 loadmodule "<%= module %>.so"
@@ -41,15 +45,6 @@ modparam("nathelper","natping_interval", 15)
 modparam("nathelper", "received_avp", "$avp(received)")
 modparam("nathelper", "ping_nated_only", 1)
 
-modparam("rtpproxy", "rtpproxy_sock", "udp:localhost:22222")
-
-modparam("dialog", "db_mode", 1)
-modparam("dialog", "db_url", "<%= node['opensips']['federate']['config']['dialog_db_url'] -%>")
-
-modparam("usrloc", "db_mode", 0)
-modparam("usrloc", "db_mode", 2)
-modparam("usrloc", "db_url", "<%= node['opensips']['federate']['config']['usrloc_db_url'] -%>")
-
 # when a UAC sends nated register set bflag 1 before saving.
 # when lookup is called, usrloc will restore the bflag and let us
 # detect a nated "callee" or UAS
@@ -57,32 +52,10 @@ modparam("usrloc", "nat_bflag",1)
 # use the domain portion to match users
 modparam("usrloc", "use_domain",1)
 
-# ---- group params ----
-modparam("group", "db_url", "<%= node['opensips']['federate']['config']['group_db_url'] -%>")
-modparam("group", "use_domain", 1)
-
-# ----- uri params -----
-modparam("uri", "use_uri_table", 0)
-
-modparam("alias_db", "db_url", "<%= node['opensips']['federate']['config']['alias_db_url'] -%>")
-modparam("alias_db", "append_branches", 1)
-
-modparam("auth_db", "calculate_ha1", 0)
-modparam("auth_db", "password_column", "ha1")
-modparam("auth_db", "db_url", "<%= node['opensips']['federate']['config']['auth_db_url'] -%>")
-modparam("auth_db", "load_credentials", "")
-modparam("auth_db", "use_domain", 1)
-
-modparam("avpops", "db_url", "<%= node['opensips']['federate']['config']['avp_db_url'] -%>")
-modparam("avpops","use_domain",1)
-
 # ----- pike params ----
 modparam("pike", "sampling_time_unit", 10)
 modparam("pike", "reqs_density_per_unit", 30)
 modparam("pike", "remove_latency", 3600)
-
-# ----- domain params ----
-modparam("domain", "db_url", "<%= node['opensips']['federate']['config']['domain_db_url'] -%>")
 
 # flags
 # -----
@@ -117,7 +90,7 @@ route{
   # some scanner mitigation
 
   # check to see if the src ip is flooding us and drop requests accordingly
-  if ($si!="<%= node['opensips']['federate']['config']['listen_ip'] -%>" && !pike_check_req()) { exit; }
+  if ($si!="<%= node['opensips']['config']['listen_ip'] -%>" && !pike_check_req()) { exit; }
   # if the packet contains sipviscious or freindly-scanner drop it
   if(search("sipvicious") || search('freindly-scanner')) { exit;}
 
